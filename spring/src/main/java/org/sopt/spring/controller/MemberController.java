@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,4 +44,9 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<MemberFindDto>> findAllMembers() {
+        List<MemberFindDto> members = memberService.findAllMembers();
+        return ResponseEntity.ok(members);
+    }
 }
