@@ -26,7 +26,8 @@ public class ProductService {
                 productCreateDto.price(),
                 productCreateDto.description(),
                 productCreateDto.location(),
-                member);
+                member,
+                productCreateDto.transactionMethod());
         member.addProduct(product);
         productRepository.save(product);
         return product.getId().toString();
