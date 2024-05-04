@@ -25,7 +25,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(
                         "Location", postService.post(memberId, blogId, postCreateRequest))
-                .body(SuccessStatusResponse.of(SuccessMessage.POSTING_CREATE_SUCCESS, null));
+                .body(SuccessStatusResponse.of(SuccessMessage.POSTING_CREATE_SUCCESS));
     }
     @GetMapping("/post/{postId}")
     public ResponseEntity<SuccessStatusResponse<PostViewResponse>> getBlog(

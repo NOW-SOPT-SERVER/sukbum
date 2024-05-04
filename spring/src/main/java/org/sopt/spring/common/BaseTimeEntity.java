@@ -1,4 +1,4 @@
-package org.sopt.spring.domain;
+package org.sopt.spring.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

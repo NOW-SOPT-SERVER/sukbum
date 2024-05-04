@@ -1,11 +1,10 @@
 package org.sopt.spring.post.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sopt.spring.blog.domain.Blog;
-import org.sopt.spring.domain.BaseTimeEntity;
+import org.sopt.spring.common.BaseTimeEntity;
 import org.sopt.spring.post.dto.PostCreateRequest;
 
 @Entity

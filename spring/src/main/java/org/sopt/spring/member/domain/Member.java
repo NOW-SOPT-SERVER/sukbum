@@ -20,6 +20,9 @@ public class Member {
     private Part part;
     private int age;
 
+    @OneToOne
+    private Blog blog;
+
     @Builder
     private Member(String name, Part part, int age) {
         this.name = name;
@@ -35,4 +38,7 @@ public class Member {
                 .build();
     }
 
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+    }
 }

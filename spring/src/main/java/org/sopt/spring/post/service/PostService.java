@@ -27,7 +27,7 @@ public class PostService {
     public String post(Long memberId, Long blogId, PostCreateRequest postCreateRequest) {
         Blog blog = blogService.findByBlogId(blogId);
         Member member = memberService.findById(memberId);
-        if(!Objects.equals(member.getId(), blog.getMember_Id())){
+        if(!Objects.equals(member, blog.getMember())){
             throw new NotHaveBlog(ErrorMessage.BLOG_CANT_USE);
         }
         Post post = postRepository.save(Post.create(postCreateRequest, blog, memberId));
