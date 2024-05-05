@@ -18,6 +18,7 @@ public class MemberService {
     public String create(MemberCreateDto memberCreateDto){
         Location location = locationService.checkLocationExists(memberCreateDto.location());
         Member member = Member.create(memberCreateDto.name(), memberCreateDto.phoneNumber(), location);
+        location.addMember(member);
         memberRepository.save(member);
         return member.getId().toString();
     }
