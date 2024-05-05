@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sopt.carrot.common.SuccessMessage;
-import sopt.carrot.common.SuccessStatusResponse;
+import sopt.carrot.common.success.SuccessMessage;
+import sopt.carrot.common.success.SuccessStatusResponse;
 import sopt.carrot.product.dto.ProductCreateDto;
 import sopt.carrot.product.service.ProductService;
 

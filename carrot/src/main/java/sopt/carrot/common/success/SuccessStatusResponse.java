@@ -1,8 +1,11 @@
 package sopt.carrot.common.success;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public record SuccessStatusResponse<T>(
         int status,
         String message,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         T data
 ) {
     public static <T> SuccessStatusResponse<T> of(SuccessMessage successMessage, T bodyData) {

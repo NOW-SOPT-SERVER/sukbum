@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sopt.carrot.common.SuccessMessage;
-import sopt.carrot.common.SuccessStatusResponse;
+import sopt.carrot.common.success.SuccessMessage;
+import sopt.carrot.common.success.SuccessStatusResponse;
 import sopt.carrot.member.dto.MemberCreateDto;
 import sopt.carrot.member.service.MemberService;
 

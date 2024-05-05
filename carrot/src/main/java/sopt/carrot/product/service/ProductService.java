@@ -8,7 +8,7 @@ import sopt.carrot.location.repository.LocationRepository;
 import sopt.carrot.product.dto.ProductCreateDto;
 import sopt.carrot.member.domain.Member;
 import sopt.carrot.product.domain.Product;
-import sopt.carrot.common.exception.Message.ErrorMessage;
+import sopt.carrot.common.exception.ErrorMessage;
 import sopt.carrot.common.exception.NotFoundException;
 import sopt.carrot.member.repository.MemberRepository;
 import sopt.carrot.product.repository.ProductRepository;
