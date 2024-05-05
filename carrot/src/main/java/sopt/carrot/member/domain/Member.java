@@ -27,16 +27,20 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     List<Product> productList = new ArrayList<>();
 
+    private String location;
+
     @Builder
-    private Member(String name, String phoneNumber){
+    private Member(String name, String phoneNumber, String location){
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.location = location;
     }
 
-    public static Member create(String name, String phoneNumber) {
+    public static Member create(String name, String phoneNumber, String location) {
         return Member.builder()
                 .name(name)
                 .phoneNumber(phoneNumber)
+                .location(location)
                 .build();
     }
 

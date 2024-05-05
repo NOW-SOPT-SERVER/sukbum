@@ -13,7 +13,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     @Transactional
     public String create(MemberCreateDto memberCreateDto){
-        Member member = Member.create(memberCreateDto.name(), memberCreateDto.phoneNumber());
+        Member member = Member.create(memberCreateDto.name(), memberCreateDto.phoneNumber(), memberCreateDto.location());
         memberRepository.save(member);
         return member.getId().toString();
     }
