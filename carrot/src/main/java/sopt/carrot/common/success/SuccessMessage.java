@@ -1,4 +1,4 @@
-package sopt.carrot.common;
+package sopt.carrot.common.success;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

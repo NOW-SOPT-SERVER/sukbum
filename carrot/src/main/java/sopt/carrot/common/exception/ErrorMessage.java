@@ -1,4 +1,4 @@
-package sopt.carrot.common.exception.Message;
+package sopt.carrot.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

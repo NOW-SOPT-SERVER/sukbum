@@ -1,4 +1,4 @@
-package sopt.carrot.common;
+package sopt.carrot.common.exception;
 
 public record ErrorResponse(
         int status,
