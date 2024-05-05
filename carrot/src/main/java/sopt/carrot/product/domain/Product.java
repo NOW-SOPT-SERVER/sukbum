@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sopt.carrot.common.BaseTimeEntity;
+import sopt.carrot.location.domain.Location;
 import sopt.carrot.member.domain.Member;
 
 @Entity
@@ -18,7 +19,10 @@ public class Product extends BaseTimeEntity {
     private String title;
     private int price;
     private String description;
-    private String location;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
     private boolean isSell;
 
     @Enumerated(EnumType.STRING)
@@ -29,7 +33,7 @@ public class Product extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    private Product(String title, int price, String description, String location, Member member, TransactionMethod transactionMethod) {
+    private Product(String title, int price, String description, Location location, Member member, TransactionMethod transactionMethod) {
         this.title = title;
         this.price = price;
         this.description = description;
@@ -39,7 +43,7 @@ public class Product extends BaseTimeEntity {
         this.transactionMethod = transactionMethod;
     }
 
-    public static Product create(String title, int price, String description, String location, Member member, TransactionMethod transactionMethod) {
+    public static Product create(String title, int price, String description, Location location, Member member, TransactionMethod transactionMethod) {
         return Product.builder()
                 .title(title)
                 .price(price)

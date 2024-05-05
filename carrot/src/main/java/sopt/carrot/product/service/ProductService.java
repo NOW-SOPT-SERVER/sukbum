@@ -25,7 +25,7 @@ public class ProductService {
         Product product = Product.create(productCreateDto.title(),
                 productCreateDto.price(),
                 productCreateDto.description(),
-                productCreateDto.location(),
+                member.getLocation(),
                 member,
                 productCreateDto.transactionMethod());
         member.addProduct(product);

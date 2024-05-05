@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sopt.carrot.common.BaseTimeEntity;
+import sopt.carrot.location.domain.Location;
 import sopt.carrot.product.domain.Product;
 
 import java.util.ArrayList;
@@ -27,16 +28,18 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     List<Product> productList = new ArrayList<>();
 
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @Builder
-    private Member(String name, String phoneNumber, String location){
+    private Member(String name, String phoneNumber, Location location){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.location = location;
     }
 
-    public static Member create(String name, String phoneNumber, String location) {
+    public static Member create(String name, String phoneNumber, Location location) {
         return Member.builder()
                 .name(name)
                 .phoneNumber(phoneNumber)
