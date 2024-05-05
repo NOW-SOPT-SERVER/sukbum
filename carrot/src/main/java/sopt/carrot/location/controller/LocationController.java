@@ -18,7 +18,7 @@ public class LocationController {
     public ResponseEntity<SuccessStatusResponse> getProducts(
             @PathVariable String locationName
     ){
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(SuccessStatusResponse.of(SuccessMessage.PRODUCTS_READ_SUCCESS, locationService.getProductList(locationName)));
     }
 }
