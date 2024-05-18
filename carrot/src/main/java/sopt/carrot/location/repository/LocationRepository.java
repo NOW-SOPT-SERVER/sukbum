@@ -5,6 +5,6 @@ import sopt.carrot.location.domain.Location;
 
 import java.util.Optional;
 
-public interface LocationRepository extends JpaRepository<Location, Long> {
+public interface LocationRepository extends JpaRepository<Location, Long>, LocationRepositoryCustom {
     Optional<Location> findByName(String name);
 }
