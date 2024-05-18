@@ -28,7 +28,7 @@ public class LocationService {
 
     @Transactional(readOnly = true)
     public List<ProductListDto> getProductList(String locationName){
-        Location findLocation = locationRepository.findByName(locationName)
+        Location findLocation = locationRepository.findLocationByName(locationName)
                 .orElseThrow(
                         () -> new NotFoundException(ErrorMessage.PRODUCT_NOT_FOUND_BY_LOCATION_EXCEPTION)
                 );
