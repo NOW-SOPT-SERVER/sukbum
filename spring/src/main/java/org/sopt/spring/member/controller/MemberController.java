@@ -36,6 +36,15 @@ public class MemberController {
                         userJoinResponse
                 );
     }
+    @PostMapping("/refresh")
+    public ResponseEntity<UserJoinResponse> refreshAccessToken() {
+        UserJoinResponse userJoinResponse = memberService.createMember(memberCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Location", userJoinResponse.userId())
+                .body(
+                        userJoinResponse
+                );
+    }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberFindDto> findMemberById(@PathVariable Long memberId) {
@@ -43,7 +52,9 @@ public class MemberController {
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity deleteMemberById(@PathVariable Long memberId){
+    public ResponseEntity deleteMemberById(
+            @PathVariable Long memberId
+    ){
         memberService.deleteMemberById(memberId);
         return ResponseEntity.noContent().build();
     }
