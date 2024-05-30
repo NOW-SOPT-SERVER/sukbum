@@ -3,6 +3,7 @@ package org.sopt.spring.blog.service;
 import lombok.RequiredArgsConstructor;
 import org.sopt.spring.common.exception.ErrorMessage;
 import org.sopt.spring.blog.domain.Blog;
+import org.sopt.spring.external.S3Service;
 import org.sopt.spring.member.domain.Member;
 import org.sopt.spring.common.exception.NotFoundException;
 import org.sopt.spring.blog.repository.BlogRepository;
@@ -12,18 +13,27 @@ import org.sopt.spring.member.service.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class BlogService {
     private final BlogRepository blogRepository;
     private final MemberService memberService;
+    private final S3Service s3Service;
+    private static final String BLOG_S3_UPLOAD_FOLDER = "blog/";
 
     @Transactional
-    public String create(Long memberId, BlogCreateRequest blogCreateRequest) {
+    public String create(Long memberId, BlogCreateRequest createRequest) {
+        //member찾기
         Member member = memberService.findById(memberId);
-        Blog blog = blogRepository.save(Blog.create(member, blogCreateRequest));
-        member.setBlog(blog);
-        return blog.getId().toString();
+        try {
+            Blog blog = blogRepository.save(Blog.create(member, createRequest.title(), createRequest.description(),
+                    s3Service.uploadImage(BLOG_S3_UPLOAD_FOLDER, createRequest.image())));
+            return blog.getId().toString();
+        } catch (RuntimeException | IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
     @Transactional(readOnly = true)
     public Blog findByBlogId(Long blogId){

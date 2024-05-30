@@ -25,6 +25,7 @@ public class Blog extends BaseTimeEntity {
     private String title;
 
     private String description;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "blog")
     private List<Post> posts = new ArrayList<>();
@@ -32,15 +33,21 @@ public class Blog extends BaseTimeEntity {
     @OneToOne(mappedBy = "blog")
     private Member member;
 
-    private Blog(Member member, String title, String description) {
+    private Blog(Member member, String title, String description, String imageUrl) {
         this.member = member;
         this.title = title;
         this.description = description;
+        this.imageUrl = imageUrl;
+    }
+    public static Blog create(
+            Member member,
+            String title,
+            String description,
+            String imageUrl
+    ) {
+        return new Blog(member, title, description, imageUrl);
     }
 
-    public static Blog create(Member member, BlogCreateRequest blogCreateRequest) {
-        return new Blog(member, blogCreateRequest.title(), blogCreateRequest.description());
-    }
     public void updateBlogTitle(BlogTitleUpdateRequest blogTitleUpdateRequest){
         this.title = blogTitleUpdateRequest.title();
     }
