@@ -3,6 +3,8 @@ package org.sopt.spring.member.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.sopt.spring.common.auth.UserAuthentication;
+import org.sopt.spring.common.auth.redis.domain.Token;
+import org.sopt.spring.common.auth.redis.repository.RedisTokenRepository;
 import org.sopt.spring.common.exception.ErrorMessage;
 import org.sopt.spring.common.jwt.JwtTokenProvider;
 import org.sopt.spring.member.domain.Member;
@@ -23,6 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTokenRepository redisTokenRepository;
 
     @Transactional
     public UserJoinResponse createMember(
@@ -35,7 +38,13 @@ public class MemberService {
         String accessToken = jwtTokenProvider.issueAccessToken(
                 UserAuthentication.createUserAuthentication(memberId)
         );
-        return UserJoinResponse.of(accessToken, memberId.toString());
+        String refreshToken = jwtTokenProvider.issueRefreshToken(
+                UserAuthentication.createUserAuthentication(memberId)
+        );
+        //레디스에 저*장
+        redisTokenRepository.save(Token.of(memberId, refreshToken));
+
+        return UserJoinResponse.of(accessToken, refreshToken, memberId.toString());
     }
 
     public MemberFindDto findMemberById(Long memberId) {
