@@ -2,6 +2,7 @@ package org.sopt.spring.member.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.sopt.spring.common.auth.PrincipalHandler;
 import org.sopt.spring.member.service.MemberService;
 import org.sopt.spring.member.dto.MemberCreateDto;
 import org.sopt.spring.member.dto.MemberFindDto;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,6 +25,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PrincipalHandler principalHandler;
 
     @PostMapping
     public ResponseEntity<UserJoinResponse> createMember(
@@ -38,13 +39,27 @@ public class MemberController {
                 );
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<UserJoinResponse> refreshToken(){
+        UserJoinResponse userJoinResponse = memberService.refreshToken(
+                principalHandler.getUserIdFromPrincipal()
+        );
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Location", userJoinResponse.userId())
+                .body(
+                        userJoinResponse
+                );
+    }
+
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberFindDto> findMemberById(@PathVariable Long memberId) {
         return ResponseEntity.ok(memberService.findMemberById(memberId));
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity deleteMemberById(@PathVariable Long memberId){
+    public ResponseEntity deleteMemberById(
+            @PathVariable Long memberId
+    ){
         memberService.deleteMemberById(memberId);
         return ResponseEntity.noContent().build();
     }
