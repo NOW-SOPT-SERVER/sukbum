@@ -6,6 +6,7 @@ import org.sopt.spring.common.auth.UserAuthentication;
 import org.sopt.spring.common.auth.redis.domain.Token;
 import org.sopt.spring.common.auth.redis.repository.RedisTokenRepository;
 import org.sopt.spring.common.exception.ErrorMessage;
+import org.sopt.spring.common.exception.UnauthorizedException;
 import org.sopt.spring.common.jwt.JwtTokenProvider;
 import org.sopt.spring.member.domain.Member;
 import org.sopt.spring.common.exception.NotFoundException;
@@ -71,5 +72,25 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
         );
+    }
+
+    @Transactional
+    public UserJoinResponse refreshToken(Long memberId) {
+        //Refresh 토큰 만료:  Redis에 해당 Refresh 토큰이 존재하지 않음
+        if(!redisTokenRepository.existsById(memberId.toString())){
+          throw new UnauthorizedException(ErrorMessage.INVALID_REFRESH_TOKEN);
+        }
+        //DB에 해당하는 유저 아이디가 있는지 확인
+        findById(memberId);
+
+        String accessToken = jwtTokenProvider.issueAccessToken(
+                UserAuthentication.createUserAuthentication(memberId)
+        );
+        String refreshToken = jwtTokenProvider.issueRefreshToken(
+                UserAuthentication.createUserAuthentication(memberId)
+        );
+        //레디스에 저*장
+        redisTokenRepository.save(Token.of(memberId, refreshToken));
+        return UserJoinResponse.of(accessToken, refreshToken, memberId.toString());
     }
 }

@@ -2,6 +2,7 @@ package org.sopt.spring.member.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.sopt.spring.common.auth.PrincipalHandler;
 import org.sopt.spring.member.service.MemberService;
 import org.sopt.spring.member.dto.MemberCreateDto;
 import org.sopt.spring.member.dto.MemberFindDto;
@@ -24,6 +25,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PrincipalHandler principalHandler;
 
     @PostMapping
     public ResponseEntity<UserJoinResponse> createMember(
@@ -36,9 +38,12 @@ public class MemberController {
                         userJoinResponse
                 );
     }
+
     @PostMapping("/refresh")
-    public ResponseEntity<UserJoinResponse> refreshAccessToken() {
-        UserJoinResponse userJoinResponse = memberService.createMember(memberCreateDto);
+    public ResponseEntity<UserJoinResponse> refreshToken(){
+        UserJoinResponse userJoinResponse = memberService.refreshToken(
+                principalHandler.getUserIdFromPrincipal()
+        );
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Location", userJoinResponse.userId())
                 .body(
